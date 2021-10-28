@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <title>مدیریت رستوران ساحل (دیجینمو)</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="animate.css" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
+    <!-- Font Awesome -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+    /> -->
+    <!-- Google Fonts Roboto -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"> -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="mdb/css/bootstrap.min.css" />
+    <script src="./js/pace.min.js"></script>
+    <script>
+      let $ = require("jquery");
+      require("jquery-bez");
+      let Pace = require("pace-js");
+    </script>
+    <script>
+      require("popper.js");
+    </script>
+    <script>
+      require("bootstrap");
+    </script>
+    <script>
+      const axios = require("axios").default;
+    </script>
+    <!-- <link rel="stylesheet" href="css/aos.css" /> -->
+    <!-- Material Design Bootstrap -->
+    <!-- <link rel="stylesheet" href="mdb/css/mdb.min.css" /> -->
+    <!-- Your custom styles (optional) -->
+    <!-- <link rel="stylesheet" href="mdb/css/style.css" />
+    <link href="css/normalize.css" rel="stylesheet" />
+    <link href="css/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/vertical-responsive-menu.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/prism.css" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" href="css/persianDatepicker-default.css" /> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+    <!-- <link rel="stylesheet" href="css/persianDatepicker-lightorang.css" /> -->
+  </head>
+  <script>
+    var SUBSIDY_PRICE = 8000;
+    var paymented = false;
+    var token = "G_-hedie83443ugfusifh7327_-%8937367w27hd3jdhhddu3468vdfsa%";
+    var host_name = `http://localhost:8000/api/${token}`;
+  </script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script> -->
+  <!-- <!-- <script src="./Material-UI/src/index.js"></script> -->
+  <body>
+    <div id="circle" class="loading-cr">
+      <div class="loader">
+        <div class="loader">
+          <div class="loader">
+            <div class="loader"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="loading-wrap"></div>
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+      <a class="navbar-brand navbar-logo" href="#">ساحل</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars text-white"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <div class="hori-selector">
+            <div class="left"></div>
+            <div class="right"></div>
+          </div>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="settings()"
+              ><i class="fas fa-tachometer-alt"></i>تنظیمات</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="settings()"
+              ><i class="fas fa-tachometer-alt"></i>تم</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="javascript:void(0);"
+              onclick="organ_selling()"
+              ><i class="far fa-address-book"></i>فروش سازمانی</a
+            >
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="javascript:void(0);" onclick="selling()"
+              ><i class="far fa-address-book"></i>فروش</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="javascript:void(0);"
+              onclick="table_managment()"
+              ><i class="far fa-clone"></i>مدیریت میز</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="amar()"
+              ><i class="far fa-calendar-alt"></i>آمار</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="javascript:void(0);"
+              onclick="users_managment()"
+              ><i class="far fa-chart-bar"></i>مدیریت کاربران</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="javascript:void(0);"
+              onclick="inventory_managment()"
+              ><i class="far fa-copy"></i>مدیریت موجودی</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div>
+      <div id="chart" class="charts"></div>
+    </div>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Roboto");
+
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      i {
+        margin-right: 10px;
+      }
+      /*----------multi-level-accordian-menu------------*/
+      .navbar-logo {
+        padding: 15px;
+        color: #fff;
+      }
+      .navbar-mainbg {
+        background-color: #0f9915;
+        padding: 0px;
+      }
+      #navbarSupportedContent {
+        overflow: hidden;
+        position: relative;
+      }
+      #navbarSupportedContent ul {
+        padding: 0px;
+        margin: 0px;
+      }
+      #navbarSupportedContent ul li a i {
+        margin-right: 10px;
+      }
+      #navbarSupportedContent li {
+        list-style-type: none;
+        float: left;
+      }
+      #navbarSupportedContent ul li a {
+        color: rgb(255, 255, 255);
+        text-decoration: none;
+        font-size: 15px;
+        display: block;
+        padding: 20px 20px;
+        transition-duration: 0.6s;
+        transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        position: relative;
+      }
+      #navbarSupportedContent > ul > li.active > a {
+        color: #0f9915;
+        background-color: transparent;
+        transition: all 0.7s;
+      }
+      #navbarSupportedContent a:not(:only-child):after {
+        content: "\f105";
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        font-size: 14px;
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-weight: 900;
+        transition: 0.5s;
+      }
+      #navbarSupportedContent .active > a:not(:only-child):after {
+        transform: rotate(90deg);
+      }
+      .hori-selector {
+        display: inline-block;
+        position: absolute;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        transition-duration: 0.6s;
+        transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        background-color: #fff;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        margin-top: 10px;
+      }
+      .hori-selector .right,
+      .hori-selector .left {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background-color: #fff;
+        bottom: 10px;
+      }
+      .hori-selector .right {
+        right: -25px;
+      }
+      .hori-selector .left {
+        left: -25px;
+      }
+      .hori-selector .right:before,
+      .hori-selector .left:before {
+        content: "";
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0f9915;
+      }
+      .hori-selector .right:before {
+        bottom: 0;
+        right: -25px;
+      }
+      .hori-selector .left:before {
+        bottom: 0;
+        left: -25px;
+      }
+
+      @media (min-width: 992px) {
+        .navbar-expand-custom {
+          -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+          -ms-flex-pack: start;
+          justify-content: flex-start;
+        }
+        .navbar-expand-custom .navbar-nav {
+          -ms-flex-direction: row;
+          flex-direction: row;
+        }
+        .navbar-expand-custom .navbar-toggler {
+          display: none;
+        }
+        .navbar-expand-custom .navbar-collapse {
+          display: -ms-flexbox !important;
+          display: flex !important;
+          -ms-flex-preferred-size: auto;
+          flex-basis: auto;
+        }
+      }
+
+      @media (max-width: 991px) {
+        #navbarSupportedContent ul li a {
+          padding: 12px 30px;
+        }
+        .hori-selector {
+          margin-top: 0px;
+          margin-left: 10px;
+          border-radius: 0;
+          border-top-left-radius: 25px;
+          border-bottom-left-radius: 25px;
+        }
+        .hori-selector .left,
+        .hori-selector .right {
+          right: 10px;
+        }
+        .hori-selector .left {
+          top: -25px;
+          left: auto;
+        }
+        .hori-selector .right {
+          bottom: -25px;
+        }
+        .hori-selector .left:before {
+          left: -25px;
+          top: -25px;
+        }
+        .hori-selector .right:before {
+          bottom: -25px;
+          left: -25px;
+        }
+      }
+    </style>
+
+    <!-- <button onclick="AddFood_Tab_Open()" class="btn btn-primary waves-effect">
+      حذف و اضافه کردن غذا
+    </button> -->
+    <div id="root"></div>
+    <div id="btn"></div>
+    <!--
+        <video class="video-fluid" autoplay loop muted>
+            <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4" />
+          </video> -->
+
+    <div class="lockbody"></div>
+    <!--Modal: modalCookie-->
+    <div
+      class="modal fade top"
+      id="modalCookie1"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+      data-backdrop="true"
+      style="opacity: 0.9"
+    >
+      <div
+        class="modal-dialog modal-frame modal-top modal-notify modal-info"
+        role="document"
+      >
+        <!--Content-->
+        <div class="modal-content">
+          <!--Body-->
+          <div class="modal-body">
+            <div class="row d-flex justify-content-center align-items-center">
+              <a
+                type="button"
+                class="btn btn-outline-info waves-effect"
+                data-dismiss="modal"
+                id="addlist_id"
+              ></a>
+              <p
+                class="pt-3 pr-2"
+                id="food-added-success"
+                style="padding-left: 2%"
+              ></p>
+              <!-- <img src="img/check2.gif" alt="" width="70" height="52" style="display: block;text-align: center;"> -->
+              <div class="spinner-grow text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!--Modal: modalCookie-->
+
+    <div class="esc" onclick="ESC_Div()"></div>
+    <!-- <div class="top-tab"> -->
+
+    <!-- left side -->
+    <!-- <div style="display: flex;">
+   <div class="menu-tog no-drag" onclick="AddFood_Tab_Open()"><i class="fa fa-bars"></i></div>
+   <div class="menu-tog" style="position: relative;color: #fff;font-size: 14px;padding-top: 2px;padding-left: 3px;" onclick="">نرم افزار مدیریت رستوران ساحل</div>
+  </div> -->
+
+    <!-- right side -->
+
+    <!-- <div style=display:flex;>
+    
+ 
+      <div class="window-manage no-drag" id="minimizeApp" title="مینیمایز"><i class="far fa-minus-square"></i></div>
+          <div class="window-manage no-drag" onclick="" title="کوچک کردن صفحه"><i class="far fa-window-restore"></i></div>
+   <div class="window-manage no-drag" id="closeApp" title="خروج"><i class="fa fa-times"></i></div>
+
+</div> -->
+
+    <!-- 
+   </div> -->
+
+    <!-- firtst flex div -->
+    <div class="head-flex">
+      <!-- <img  src="img/scu.png"  class="app-blur"> -->
+      <!-- <img src="img/check.gif" alt=""> -->
+    </div>
+    <div class="offlineModal">
+      <h4 id="offlineModalText" style="color: #000; margin-top: 3vh"></h4>
+      <div
+        class="spinner-grow text-dark"
+        role="status"
+        style="margin-top: 3vh; margin-left: 2%"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div class="bottom-tab">
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="mouse()">
+        <i class="fa fa-cogs"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="mouse()">
+        <i class="fa fa-credit-card"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="blur()">
+        <i class="fa fa-power-off"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="mouse()">
+        <i class="fa fa-refresh"></i>
+      </div>
+      <div class="window-manage-3" id="printReport" title="خروج">
+        <i class="fa fa-print"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="mouse()">
+        <i class="fa fa-calendar"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="mouse()">
+        <i class="fa fa-bell"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="mouse()">
+        <i class="fa fa-cutlery"></i>
+      </div>
+      <div class="window-manage-3" id="closeApp" title="خروج" onclick="">
+        <i class="fa fa-envelope"></i>
+      </div>
+    </div>
+    <!-- <img src="img/scu.png" alt=""  width="150px" height="150px;" style="float: right;">
+                 <h3>رستوران ساحل دانشکاه شهید چمران اهواز</h3>
+                  <h1>علیرضا</h1>
+    
+            </div> -->
+
+    <style>
+      table {
+        /* font-family: 'sahel'; */
+        border-collapse: collapse;
+        width: 90%;
+        position: relative;
+        padding: 5px;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+      tr {
+        border-bottom: 1px solid rgba(180, 178, 178, 0.767);
+        text-align: center;
+      }
+
+      td,
+      th {
+        /* border: 1px solid #dddddd; */
+        text-align: center;
+        padding: 8px;
+        color: #fff;
+        opacity: 0.8;
+      }
+      @keyframes hold_animation {
+        0% {
+          border: 2px solid -webkit-linear-gradient(to right, #49a09d, #5f2c82); /* Chrome 10-25, Safari 5.1-6 */
+        }
+        25% {
+          border: 2px solid -webkit-linear-gradient(to right, #4a569d, #dc2424); /* Chrome 10-25, Safari 5.1-6 */
+        }
+        50% {
+          border: 2px solid -webkit-linear-gradient(to right, #859398, #283048); /* Chrome 10-25, Safari 5.1-6 */
+        }
+        75% {
+          border: 2px solid -webkit-linear-gradient(to right, #d7dde8, #757f9a); /* Chrome 10-25, Safari 5.1-6 */
+        }
+        100% {
+          border: 2px -webkit-linear-gradient(to right, #4a569d, #dc2424); /* Chrome 10-25, Safari 5.1-6 */
+        }
+      }
+      tr:hover {
+        background: #bac0ba;
+        transition: 0.7s;
+      }
+    </style>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="basicExampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      [config]="{backdrop: 'static'}"
+      style="opacity: 0.8"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">سفارش ثبت شد</h5>
+            <div class="">
+              <img
+                src="img/check2.gif"
+                alt=""
+                width="200"
+                height="150"
+                style="display: block; text-align: center"
+              />
+            </div>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            ></button>
+            <span aria-hidden="true">&times;</span>
+          </div>
+          <div class="modal-body">
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="Customer_Name"
+            ></h5>
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="order_number"
+            ></h5>
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="order_Total_free_Price"
+            ></h5>
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="order_Total_SUBSIDY_PRICE"
+            ></h5>
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="order_Total_Price"
+            ></h5>
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="order_free_foods_number"
+            ></h5>
+            <h5
+              style="margin-top: 10px; text-align: right"
+              id="order_subsidy_foods_number"
+            ></h5>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              بستن
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="online_checkout()"
+            >
+              پرداخت آنلاین
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="exit-tab"></div> -->
+
+    <!-- <img src="img/scu.png" alt="" style="float:right; position:fixed;right:0;" class="animated bounceInDown">  -->
+
+    <div class="date-report">
+      <div class="back-to-bottom" onclick="Close_Report_Tab()">
+        <i class="fa fa-angle-down"></i>
+      </div>
+      <div id="main_Bottom_Report_Div">
+        <div class="my-flex">
+          <!-- left side -->
+          <div class="">
+            <form>
+              <div class="wrapper">
+                <section id="themes">
+                  <input
+                    type="text"
+                    id="Get_Date_To_Print"
+                    placeholder="تاریخ را انتخاب کنید"
+                    id="pdpDefault"
+                  />&nbsp;&nbsp;&nbsp;&nbsp;
+                </section>
+              </div>
+              <div
+                onclick="sum_of_Subsidy()"
+                style="text-align: center"
+                class="date_report_btn"
+              >
+                چاپ گذارش تاریخ فوق
+              </div>
+            </form>
+          </div>
+          <!-- right side -->
+          <div class="child-2">22222</div>
+        </div>
+      </div>
+    </div>
+    <div class="food-form">
+      <form>
+        <input type="text" id="name" placeholder="نام خوراک" /><br /><br />
+
+        <input type="text" id="price" placeholder="قیمت" /><br /><br />
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#modalCookie1"
+          onclick="AddFood()"
+          id="Admin_Add_Food_Btn"
+        >
+          افزودن غذا
+        </button>
+        <!-- html select -->
+      </form>
+      <hr style="margin-top: 70px" />
+
+      <h2 id="Delete_Food_h2">:حذف غذا</h2>
+      <div id="delete_inventory">
+        <select id="Select_To_Delete_Food" onchange="delete_inventory(this)">
+          <option value="">-- برای حذف انتخاب کنید --</option>
+        </select>
+      </div>
+      <hr />
+      <h2 id="Delete_Food_h2">:لیست غذا</h2>
+      <div id="foodlist"></div>
+
+      <button
+        type="button"
+        class="btn btn-outline-danger waves-effect"
+        onclick="Exit_All()"
+        id="Exit_All_Btn"
+      >
+        خروج
+      </button>
+    </div>
+
+    <div class="admin-menu">
+      <div class="exit"><i class="fa fa-times-circle"></i></div>
+      <div class="food-btn">
+        <button class="btnaddfood" onclick="AddFood_Tab_Open()">
+          حذف و افزودن غذا
+        </button>
+      </div>
+    </div>
+
+    <!-- <form action="/rescode">
+        <input type="text" id="rescode">
+          <button type="submit" onclick="rcode_value_show()">اجرا</button>
+     </form> -->
+
+    <script>
+      // var Kavenegar = require('kavenegar'); //import SMS Sender service
+      const MellatCheckout = require("mellat-checkout"); // mellat check-out
+      // const pace = require('pace-js'); //import pace.js
+      // const Quagga = require('quagga').default; // import barcode reader
+      // var api = Kavenegar.KavenegarApi({apikey: '51435074594649345A4D375843752F525A33544154547565724A76743751477576644E64674E4976496E773D'}); // SMS service Api key
+
+      const rms_HostName = host_name;
+      // onload functions - start
+      window.onload = Inventory_select_To_Delete();
+      window.onload = inventorys_table_request();
+      window.onload = parselistfood();
+
+      // window.onload = check_out();
+      // onload functions - end
+      // const rcode = document.querySelector('#rescode').value;
+      // function rcode_value_show(){
+      //   console.log(rcode);
+      // }
+
+      // parselistfood() function
+      function parselistfood() {
+        axios({
+          method: "get",
+          url: `${rms_HostName}/Inventorys`,
+        }).then((foods) => {
+          foods = foods.data;
+
+          var ele = document.getElementById("foodlist");
+          for (let food of foods) {
+            // Bind data to <select> element.
+            ele.innerHTML +=
+              '<div style="color:#fff;font-size:10px;border-bottom:1px solid #000; padding-bottom:2px;padding-top:2px; text-align:center;">' +
+              food.name +
+              "</div>";
+          }
+        });
+      }
+
+      // Inventory_select_To_Delete() function
+      function Inventory_select_To_Delete() {
+        axios({
+          method: "get",
+          url: `${rms_HostName}/Inventorys`,
+        }).then((foods) => {
+          foods = foods.data;
+          let ele = document.getElementById("Select_To_Delete_Food");
+          for (let i = 0; i < foods.length; i++) {
+            ele.innerHTML =
+              ele.innerHTML +
+              '<option value="' +
+              foods[i].id +
+              '" id="option_' +
+              foods[i].id +
+              '">' +
+              foods[i].name +
+              "</option>";
+          }
+        });
+      }
+      var sum_of_Subsidy_foods = 0;
+      var count_of_subsidy_foods = 0;
+
+      // print ,send & show sales report by date function - start
+
+      function sum_of_Subsidy() {
+        var Admin_intered_date = document.querySelector("#Get_Date_To_Print")
+          .value;
+        console.log(Admin_intered_date);
+        let daily_report_div = document.createElement("div");
+        daily_report_div.setAttribute("id", "print_order_daily");
+        daily_report_div.setAttribute(
+          "style",
+          "border:1px solid #000;width:100%;"
+        );
+
+        let daily_report_table = document.createElement("table");
+        daily_report_table.setAttribute("style", "width:100%;");
+        daily_report_div.appendChild(daily_report_table);
+        let daily_report_table_tr = document.createElement("tr");
+        daily_report_table.appendChild(daily_report_table_tr);
+        let daily_subsidy_foods_count_head = document.createElement("th");
+        daily_subsidy_foods_count_head.setAttribute(
+          "style",
+          "border:1px solid #000;"
+        );
+        let daily_subsidy_foods_price_head = document.createElement("th");
+        daily_subsidy_foods_price_head.setAttribute(
+          "style",
+          "border:1px solid #000;"
+        );
+        daily_subsidy_foods_count_head.textContent = "مجموع تخفیف ها";
+        daily_subsidy_foods_price_head.textContent = "تعداد تخفیف ها";
+        daily_report_table_tr.appendChild(daily_subsidy_foods_count_head);
+        daily_report_table_tr.appendChild(daily_subsidy_foods_price_head);
+        document.body.appendChild(daily_report_div);
+
+        axios({
+          method: "get",
+          url: `${rms_HostName}/order_date?date=${Admin_intered_date}`,
+        }).then((orders) => {
+          for (let order of orders.data) {
+            for (let food of order.Foods) {
+              if (food.subsidy === "yes") {
+                sum_of_Subsidy_foods += food.subsidy_price;
+                count_of_subsidy_foods += 1;
+              }
+            }
+          }
+          let daily_report_table_tr = document.createElement("tr");
+          daily_report_table.appendChild(daily_report_table_tr);
+          let daily_subsidy_foods_count_head = document.createElement("th");
+          let daily_subsidy_foods_price_head = document.createElement("th");
+          daily_subsidy_foods_count_head.textContent = sum_of_Subsidy_foods;
+          daily_subsidy_foods_price_head.textContent = count_of_subsidy_foods;
+          daily_report_table_tr.appendChild(daily_subsidy_foods_count_head);
+          daily_report_table_tr.appendChild(daily_subsidy_foods_price_head);
+          document.body.appendChild(daily_report_div);
+          Sum_Of_Subsidy_Print();
+          console.log(sum_of_Subsidy_foods);
+          console.log(count_of_subsidy_foods);
+
+          // api.Send({ message: `آمار فروش رستوران در تاریخ 1399/7\n\nتعداد غذا های تخفیفی ${sum_of_Subsidy_foods}\n\n مبلغ غذا های تخفیفی ${count_of_subsidy_foods}` , sender: "1000596446" , receptor: "09397002271" });
+        });
+      }
+      // print ,send & show sales report by date function - end
+
+      //  request to get and show tables as html select ,function - start
+      function inventorys_table_request() {
+        axios({
+          method: "get",
+          url: `${rms_HostName}/Inventorys`,
+        }).then((foods) => {
+          var foods = foods.data;
+          let add_food_price;
+          let price_food;
+          let list_foods = [];
+          var main_table_list = document.createElement("table");
+          main_table_list.setAttribute("id", "table_inventorys");
+          let main_tr_list = document.createElement("tr");
+          let th_food_name = document.createElement("th");
+          let th_food_price = document.createElement("th");
+          let th_food_price_subsidy = document.createElement("th");
+          th_food_price.textContent = " قیمت آزاد";
+          th_food_name.textContent = "نام غذا";
+          th_food_price_subsidy.textContent = " قیمت تخفیفی";
+          main_tr_list.appendChild(th_food_price);
+          main_tr_list.appendChild(th_food_name);
+          main_tr_list.appendChild(th_food_price_subsidy);
+          main_table_list.appendChild(main_tr_list);
+          right_col.appendChild(main_table_list);
+          row.appendChild(left_col);
+          row.appendChild(div_current_total_price);
+          // <button type="button" class="btn btn-outline-warning" onclick="OrderFood()" id="OrderFood_ID">ثبت</button>
+          // var set_btn = document.createElement('button');
+          // set_btn.setAttribute("type","button");
+          // set_btn.setAttribute("class","btn btn-outline-warning");
+          // set_btn.setAttribute("onclick","OrderFood()");
+          // set_btn.setAttribute("id","OrderFood_ID");
+          document.body.appendChild(main_div);
+
+          // main_div.setAttribute("style","display:block;text-align:center;");
+          // document.body.appendChild(set_btn);
+          // document.getElementById("OrderFood_ID").innerHTML = "ثبت";
+          for (let food of foods) {
+            let main_tr_list = document.createElement("tr");
+            // main_tr_list.setAttribute('id', `${food.id}-no`);
+            // main_tr_list.setAttribute('onclick', "select_to_get_id(this.id)");
+            let th_food_name = document.createElement("th");
+            let th_food_price = document.createElement("th");
+            let th_food_price_subsidy = document.createElement("th");
+
+            th_food_price.setAttribute("id", `${food.id}-no`);
+            th_food_price.setAttribute("onclick", "select_to_get_id(this.id)");
+            if (food.price > SUBSIDY_PRICE) {
+              th_food_price_subsidy.setAttribute("id", `${food.id}-yes`);
+              th_food_price_subsidy.setAttribute(
+                "onclick",
+                "select_to_get_id(this.id)"
+              );
+            } else {
+              th_food_price_subsidy.setAttribute("id", `${food.id}-yes`);
+              th_food_price_subsidy.setAttribute(
+                "onclick",
+                "select_to_get_id(this.id)"
+              );
+            }
+
+            th_food_name.textContent = food.name;
+            th_food_price.textContent = food.price;
+
+            main_tr_list.setAttribute("id", `tr_${food.id}`);
+
+            main_tr_list.appendChild(th_food_price);
+            main_tr_list.appendChild(th_food_name);
+
+            if (food.price > SUBSIDY_PRICE) {
+              th_food_price_subsidy.textContent = food.price - SUBSIDY_PRICE;
+            } else {
+              th_food_price_subsidy.textContent = food.price;
+            }
+            main_tr_list.appendChild(th_food_price_subsidy);
+            main_table_list.appendChild(main_tr_list);
+          }
+        });
+      }
+      //  request to get and show tables as html select ,function - end
+
+      //  import electron , jQuery , ajax , $ form jquery   --- start
+
+      const electron = require("electron");
+      //   const jQuery = require("jQuery");
+      //   const ajax = jQuery.ajax;
+      //   const { $ } = require("jquery");
+
+      //  import electron , jQuery , ajax , $ form jquery   --- end
+
+      // delete Inventory by is function   --- star
+      function delete_inventory(ele) {
+        axios({
+          method: "get",
+          url: `${rms_HostName}/DeleteInventory?id=${ele.value}`,
+        }).then((response) => {
+          response = response.data;
+          let tr = document.getElementById(`tr_${ele.value}`);
+          tr.remove();
+          let op = document.getElementById(`option_${ele.value}`);
+          op.remove();
+        });
+      }
+      // delete Inventory by is function   --- end
+
+      // difine main_div html tag(div)
+      var main_div = document.createElement("div");
+      // set class for main_div
+      main_div.setAttribute("class", "main-div app-blur animated bounceInLeft");
+
+      var main_container = document.createElement("div");
+      main_container.setAttribute("class", "container-fluid");
+
+      main_div.appendChild(main_container);
+      var row = document.createElement("div");
+      row.setAttribute("class", "row");
+      main_container.appendChild(row);
+
+      var right_col = document.createElement("div");
+
+      right_col.setAttribute(
+        "class",
+        "col-5 main-table-scroll app-blur animated bounceInLeft"
+      );
+      right_col.setAttribute("style", "padding:0;");
+
+      var left_col = document.createElement("div");
+      left_col.setAttribute("class", "col-3 table-scroll app-blur");
+      left_col.setAttribute("style", "padding:0;");
+
+      var add_food_price;
+      var price_food;
+
+      var tb_list = document.createElement("select");
+      tb_list.setAttribute("id", "tb_list_id");
+      tb_list.setAttribute("onchange", "get_table_id(this.value)");
+      tb_list.setAttribute("style", "width:100%;");
+
+      var tb_col = document.createElement("div");
+      tb_col.setAttribute("class", "col-2"); //
+      tb_col.setAttribute("style", "width:100%;");
+
+      var div_current_total_price = document.createElement("div");
+      div_current_total_price.setAttribute("class", "col-2");
+
+      var h5_current_total_price_text = document.createElement("h3");
+      h5_current_total_price_text.setAttribute("class", "animated bounceInUp");
+      h5_current_total_price_text.setAttribute(
+        "id",
+        "h5_current_total_price_text"
+      );
+      h5_current_total_price_text.setAttribute(
+        "style",
+        "font-size:15px; color:#fff;"
+      );
+      div_current_total_price.appendChild(h5_current_total_price_text);
+
+      // var option = document.createElement("option");
+
+      var main_table = document.createElement("table");
+      main_table.setAttribute("class", "added-food-list animated bounceInDown");
+      var main_tr = document.createElement("tr");
+      let th_food_name = document.createElement("th");
+      let th_food_price = document.createElement("th");
+      th_food_name.textContent = "(قیمت (تومان";
+      th_food_price.textContent = "نام غذا";
+      main_tr.appendChild(th_food_price);
+      main_tr.appendChild(th_food_name);
+      main_table.appendChild(main_tr);
+      left_col.appendChild(main_table);
+      row.appendChild(right_col);
+      row.appendChild(tb_col); //
+      // tb_col.appendChild(tb_list); //
+      // //   tb_list_selection();
+      // tb_list.appendChild(option);
+      // option.textContent = "انتخاب میز";
+      var list_foods = [];
+      ///////first append here
+      let div_report = document.createElement("div");
+      div_report.setAttribute("id", "report");
+
+      let scu_img = document.createElement("img");
+      scu_img.setAttribute("src", "img/scu.png");
+      scu_img.setAttribute("height", "100");
+      scu_img.setAttribute("width", "100");
+      scu_img.setAttribute("style", "margin-left:28%;");
+      var thanks = document.createElement("h3");
+      thanks.setAttribute("style", "text-align:center;dispaly:block;");
+      thanks.textContent = "با تشکر از خرید شما";
+      div_report.appendChild(scu_img);
+      div_report.appendChild(thanks);
+      div_report.setAttribute(
+        "style",
+        "border:1px solid #000;font-family:'sahel'; font-size:11px;padding:4px;"
+      );
+      let report_table = document.createElement("table");
+      report_table.setAttribute("style", "width:100%;");
+      div_report.appendChild(report_table);
+      let report_table_tr = document.createElement("tr");
+      report_table.appendChild(report_table_tr);
+      let report_table_foodName_th = document.createElement("th");
+      let report_table_foodPrice_th = document.createElement("th");
+      report_table_foodName_th.setAttribute(
+        "style",
+        "border-left:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;"
+      );
+      report_table_foodPrice_th.setAttribute(
+        "style",
+        "border-right:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;"
+      );
+      report_table_tr.appendChild(report_table_foodName_th);
+      report_table_tr.appendChild(report_table_foodPrice_th);
+      report_table_foodName_th.textContent = "نام غذا";
+      report_table_foodPrice_th.textContent = "قیمت";
+      let total_price_report = document.createElement("h5");
+      total_price_report.setAttribute("id", "total_price_report");
+      total_price_report.setAttribute(
+        "style",
+        "text-align:right;font-family:'sahel'"
+      );
+
+      let foods_count_report = document.createElement("h5");
+      foods_count_report.setAttribute("id", "foods_count_report");
+      foods_count_report.setAttribute("style", "text-align:right;");
+
+      let bilders = document.createElement("h6");
+      bilders.setAttribute("id", "bilders");
+      bilders.setAttribute("style", "text-align:right;");
+
+      let order_table = document.createElement("h5");
+      order_table.setAttribute("id", "order_table");
+      order_table.setAttribute("style", "text-align:right;");
+
+      document.body.appendChild(div_report);
+
+      // (function () {
+      //   // const sendBtn = document.querySelector('#send');
+      //   // const messages = document.querySelector('#messages');
+      //   // const messageBox = document.querySelector('#messageBox');
+
+      //   let ws;
+
+      //   function init() {
+      //     if (ws) {
+      //       ws.onerror = ws.onopen = ws.onclose = null;
+      //       ws.close();
+      //     }
+      //     ws = new WebSocket("ws://localhost:8000");
+      //     // ws = new WebSocket('ws://localhost:5000')
+      //     ws.onopen = () => {
+      //       console.log("Connection opened for report!");
+      //     };
+      //     ws.send(div_report);
+
+      //     ws.onclose = function () {
+      //       ws = null;
+      //     };
+      //   }
+      //   init();
+      // })();
+      // window.onload = tb_list_selection();
+
+      // var readyStateCheckInterval = setInterval(function () {
+      //   if (document.readyState === "complete") {
+      //     tb_list_selection();
+      //     clearInterval(readyStateCheckInterval);
+      //     init();
+      //   }
+      // }, 10);
+
+      var show_selected_option_value;
+      function get_table_id(get_selected_option_value) {
+        show_selected_option_value = get_selected_option_value;
+        console.log(show_selected_option_value);
+        div_report.appendChild(order_table);
+        document.getElementById(
+          "order_table"
+        ).innerHTML = ` ${show_selected_option_value}  : شماره میز`;
+
+        div_report.appendChild(bilders);
+        document.getElementById(
+          "bilders"
+        ).innerHTML = `طراحی و تولید اتوماسیون : دیجینمو `;
+        document.body.appendChild(div_report);
+      }
+
+      document.body.appendChild(div_report);
+
+      function select_to_get_id(clicked_id) {
+        audio.play();
+        let parsed_id = clicked_id.split("-")[0];
+        let is_subsidy = clicked_id.split("-")[1];
+        axios({
+          method: "get",
+          url: `${rms_HostName}/selectinventory?id=${parsed_id}`,
+        }).then((food) => {
+          if (is_subsidy === "no") {
+            list_foods.push({
+              name: food.data.name,
+              price: food.data.price,
+              subsidy: "no",
+            });
+          } else {
+            if (food.data.price > SUBSIDY_PRICE) {
+              list_foods.push({
+                name: food.data.name,
+                price: food.data.price - SUBSIDY_PRICE,
+                subsidy: "yes",
+                SUBSIDY_PRICE: SUBSIDY_PRICE,
+              });
+            } else {
+              list_foods.push({
+                name: food.data.name,
+                price: food.data.price,
+                subsidy: "yes",
+                SUBSIDY_PRICE: SUBSIDY_PRICE,
+              });
+            }
+          }
+          let current_total_price = 0;
+          let counts = 0;
+          for (let food of list_foods) {
+            current_total_price += food.price;
+            counts += 1;
+          }
+
+          document.getElementById(
+            "h5_current_total_price_text"
+          ).innerHTML = ` ${current_total_price}  : مبلغ کل   `;
+
+          let tr = document.createElement("tr");
+          tr.setAttribute("class", "animated bounceInLeft");
+
+          let th1 = document.createElement("th");
+          let th2 = document.createElement("th");
+          // let th3 = document.createElement('th');
+
+          th1.setAttribute("id", "ordered_food_name");
+          th2.setAttribute("id", "ordered_food_price");
+          // th3.setAttribute('id', 'ordered_food_price');
+
+          th1.textContent = food.data.name;
+          th2.textContent = food.data.price;
+          if (is_subsidy === "yes") {
+            if (food.data.price > SUBSIDY_PRICE) {
+              th2.textContent = food.data.price - SUBSIDY_PRICE;
+            } else {
+              th2.textContent = food.data.price;
+            }
+          }
+
+          tr.appendChild(th1);
+          tr.appendChild(th2);
+          // tr.appendChild(th3);
+
+          main_table.appendChild(tr);
+          //////////////////More append here
+
+          let report_table_tr = document.createElement("tr");
+          report_table.appendChild(report_table_tr);
+          let report_table_foodName_th = document.createElement("th");
+          let report_table_foodPrice_th = document.createElement("th");
+          report_table_foodName_th.setAttribute(
+            "style",
+            "border-left:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;"
+          );
+          report_table_foodPrice_th.setAttribute(
+            "style",
+            "border-right:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;"
+          );
+          report_table_tr.appendChild(report_table_foodName_th);
+          report_table_tr.appendChild(report_table_foodPrice_th);
+          report_table_foodName_th.textContent = food.data.name;
+
+          if (is_subsidy === "yes") {
+            if (food.data.price > SUBSIDY_PRICE) {
+              report_table_foodPrice_th.textContent =
+                food.data.price - SUBSIDY_PRICE;
+            } else {
+              report_table_foodPrice_th.textContent = food.data.price;
+            }
+          } else {
+            report_table_foodPrice_th.textContent = food.data.price;
+          }
+          div_report.appendChild(total_price_report);
+          document.getElementById(
+            "total_price_report"
+          ).innerHTML = ` ${current_total_price}  : مبلغ کل`;
+
+          div_report.appendChild(foods_count_report);
+          document.getElementById(
+            "foods_count_report"
+          ).innerHTML = ` ${counts}  : تعداد غذا`;
+
+          // div_report.appendChild(order_table)
+          // document.getElementById("order_table").innerHTML = ` ${show_selected_option_value}  : شماره میز`;
+          document.body.appendChild(div_report);
+        });
+      }
+
+      function AddFood() {
+        const name = document.querySelector("#name").value;
+        const price = document.querySelector("#price").value;
+        console.log(name);
+        console.log(price);
+        // api.Send({ message: `غذای ${name} به سیستم افزوده شد` , sender: "1000596446" , receptor: "09397002271" });
+        if (!name || !price) {
+          window.location.reload(true);
+        } else {
+          document.getElementById(
+            "food-added-success"
+          ).innerHTML = `با موفقیت به سیستم اضافه شد`;
+          reverce_time();
+
+          axios({
+            method: "GET",
+            url: `${rms_HostName}/AddInventory?name=${name}&price=${price}`,
+          }).then((response) => {
+            response = response.data;
+            console.log(response);
+            let table = document.getElementById("table_inventorys");
+            let tr = document.createElement("tr");
+            tr.setAttribute("id", `tr_${response.id}`);
+            let th_price_subsidy = document.createElement("th");
+            th_price_subsidy.setAttribute("id", `${response.id}-yes`);
+            let th_name = document.createElement("th");
+            let th_price = document.createElement("th");
+            th_price.setAttribute("id", `${response.id}-no`);
+            if (response.price > SUBSIDY_PRICE) {
+              th_price_subsidy.textContent = response.price - SUBSIDY_PRICE;
+            } else {
+              th_price_subsidy.textContent = response.price;
+            }
+            th_name.textContent = response.name;
+            th_price.textContent = response.price;
+            tr.appendChild(th_price_subsidy);
+            tr.appendChild(th_name);
+            tr.appendChild(th_price);
+            table.appendChild(tr);
+
+            let select = document.getElementById("Select_To_Delete_Food");
+            let op = document.createElement("option");
+            op.setAttribute("value", `${response.id}`);
+            op.setAttribute("id", `option_${response.id}`);
+            op.textContent = response.name;
+            select.appendChild(op);
+          });
+
+          // setTimeout(function(){
+          //     window.location.reload(true);
+          // }, 3000);
+
+          notification.play();
+        }
+      }
+
+      // function AddOrder(){
+
+      //     const customername = document.querySelector('#customername').value;
+
+      // }
+
+      // function display_foods() {
+      //   axios({
+      //     method: "GET",
+      //     url: `${rms_HostName}/inventorys`,
+      //   }).then((foods) => {
+      //     console.log(foods.data);
+      //     foods = foods.data;
+      //     for (let food of foods) {
+      //       console.log(food.name);
+      //     }
+      //   });
+      // }
+
+      // window.onload = display_foods();
+
+      let customername;
+
+      var span = document.getElementsByClassName("close")[0];
+      let total_SUBSIDY_PRICE = 0;
+      let subsidys_count = 0;
+      let free_count = 0;
+      let total_free_price = 0;
+      function OrderFood() {
+        ready.play();
+
+        // const customername = document.querySelector('#customername').value;
+
+        for (let food of list_foods) {
+          if (food.subsidy === "yes") {
+            subsidys_count += 1;
+            total_SUBSIDY_PRICE += food.price;
+          } else {
+            free_count += 1;
+            total_free_price += food.price;
+          }
+        }
+
+        axios({
+          method: "post",
+          url: `${rms_HostName}/AddOrder`,
+          data: {
+            name: customername,
+            foods: list_foods,
+            table: show_selected_option_value,
+          },
+        }).then((order) => {
+          if (!customername) {
+            document.getElementById("Customer_Name").innerHTML =
+              "نام مشتری : بدون نام";
+          } else {
+            document.getElementById("Customer_Name").innerHTML =
+              "نام مشتری : " + customername;
+          }
+          document.getElementById(
+            "order_number"
+          ).innerHTML = `${order.data.id}  : شماره پیگیری`;
+          document.getElementById(
+            "order_Total_SUBSIDY_PRICE"
+          ).innerHTML = `${total_SUBSIDY_PRICE}  : مبلغ غذاهای تخفیفی`;
+          document.getElementById(
+            "order_Total_free_Price"
+          ).innerHTML = `${total_free_price}  : مبلغ غذای آزاد`;
+          document.getElementById("order_Total_Price").innerHTML = `${
+            total_free_price + total_SUBSIDY_PRICE
+          }  : جمع کل`;
+
+          document.getElementById(
+            "order_free_foods_number"
+          ).innerHTML = `${subsidys_count} : تعداد غذاهای تخفیفی`;
+          document.getElementById(
+            "order_subsidy_foods_number"
+          ).innerHTML = `${free_count} : تعداد غذاهای آزاد`;
+          total_SUBSIDY_PRICE = 0;
+          subsidys_count = 0;
+          free_count = 0;
+          total_free_price = 0;
+          // api.Send({ message: `تستی` , sender: "1000596446" , receptor: "09397002271" },function(response, status) {
+          //     console.log(response);
+          //     console.log(status);
+          // }
+          // );
+        });
+      }
+
+      var notification = new Audio("notification.mp3");
+      var audio = new Audio("pop.mp3");
+      var ready = new Audio("ready.mp3");
+      var mouse_sound = new Audio("Mouse.mp3");
+      var checkoutsound = new Audio("checkoutvoice.m4a");
+      function mouse() {
+        mouse_sound.play();
+      }
+      // const main = require("./main");
+
+      function Open_Report_Tab() {
+        // jQuery(function ($) {
+        $(".date-report").toggleClass("active");
+
+        $(".app-blur").toggleClass("active");
+        // });
+        audio.play();
+      }
+      function Close_Report_Tab() {
+        // jQuery(function ($) {
+        $(".date-report").removeClass("active");
+        // });
+        audio.play();
+      }
+      function make_blur() {
+        // jQuery(function ($) {});
+        audio.play();
+      }
+
+      function AddFood_Tab_Open() {
+        $(".food-form").toggleClass("active");
+        audio.play();
+      }
+
+      function Exit_All() {
+        $(".admin-menu").removeClass("active");
+        $(".food-form").removeClass("active");
+        $(".app-blur").removeClass("active");
+      }
+
+      function ESC_Div() {
+        $(".food-form").removeClass("active");
+        $(".esc").removeClass("active");
+        $(".app-blur").removeClass("active");
+      }
+
+      function settings() {
+        $(".main-div").addClass("active");
+        $(".button-sell").addClass("active");
+        $("body").removeClass("amar");
+
+        // });
+        audio.play();
+      }
+
+      function selling() {
+        $(".main-div").removeClass("active");
+        $(".button-sell").removeClass("active");
+        $(".charts").removeClass("active");
+        $("body").removeClass("amar");
+      }
+      function amar() {
+        $(".main-div").addClass("active");
+        $(".button-sell").addClass("active");
+        $(".charts").addClass("active");
+        $("body").addClass("amar");
+      }
+    </script>
+
+    <script>
+      // window.onload = () => {
+      //   console.log("xxxxxxxxxx");
+      // };
+      // (function () {
+      //   console.log(12347236473);
+      // })();
+      function tb_list_selection() {
+        let tb_list = document.createElement("select");
+        tb_list.setAttribute("id", "tb_list_id");
+        tb_list.setAttribute("onchange", "get_table_id(this.value)");
+        tb_list.setAttribute("style", "width:100%;");
+
+        // let tb_col = document.createElement("div");
+        // tb_col.setAttribute("class", "col-2");
+        // tb_col.setAttribute("style", "width:100%;");
+
+        tb_col.appendChild(tb_list);
+        let option = document.createElement("option");
+        option.textContent = "انتخاب میز";
+        tb_list.appendChild(option);
+
+        console.log(2);
+        axios({
+          method: "get",
+          url: `${rms_HostName}/table_inventorys`,
+        }).then((tables) => {
+          tables = tables.data;
+          console.log(3);
+          console.log(JSON.stringify(tables));
+
+          // console.log(`table_options = ${table_options}`);
+          for (let table of tables) {
+            tb_list.innerHTML +=
+              '<option  value="' +
+              table.number +
+              '">' +
+              table.name +
+              "</option>";
+          }
+        });
+      }
+      window.onload = tb_list_selection();
+    </script>
+
+    <script>
+      // function startTime() {
+      //   var today = new Date();
+      //   var h = today.getHours();
+      //   var m = today.getMinutes();
+      //   var s = today.getSeconds();
+      //   m = checkTime(m);
+      //   s = checkTime(s);
+      //   document.getElementById("scu-time").innerHTML = h + ":" + m;
+      //   var t = setTimeout(startTime, 10000);
+      // }
+      // function checkTime(i) {
+      //   if (i < 10) {
+      //     i = "0" + i;
+      //   } // add zero in front of numbers < 10
+      //   return i;
+      // }
+
+      // week = new Array(
+      //   "يكشنبه",
+      //   "دوشنبه",
+      //   "سه شنبه",
+      //   "چهارشنبه",
+      //   "پنج شنبه",
+      //   "جمعه",
+      //   "شنبه"
+      // );
+      // months = new Array(
+      //   "فروردين",
+      //   "ارديبهشت",
+      //   "خرداد",
+      //   "تير",
+      //   "مرداد",
+      //   "شهريور",
+      //   "مهر",
+      //   "آبان",
+      //   "آذر",
+      //   "دي",
+      //   "بهمن",
+      //   "اسفند"
+      // );
+      // today = new Date();
+      // d = today.getDay();
+      // day = today.getDate();
+      // month = today.getMonth() + 1;
+      // year = today.getYear();
+      // year =
+      //   window.navigator.userAgent.indexOf("MSIE") > 0 ? year : 1900 + year;
+      // if (year == 0) {
+      //   year = 2000;
+      // }
+      // if (year < 100) {
+      //   year += 1900;
+      // }
+      // y = 1;
+      // for (i = 0; i < 3000; i += 4) {
+      //   if (year == i) {
+      //     y = 2;
+      //   }
+      // }
+      // for (i = 1; i < 3000; i += 4) {
+      //   if (year == i) {
+      //     y = 3;
+      //   }
+      // }
+      // if (y == 1) {
+      //   year -= month < 3 || (month == 3 && day < 21) ? 622 : 621;
+      //   switch (month) {
+      //     case 1:
+      //       day < 21
+      //         ? ((month = 10), (day += 10))
+      //         : ((month = 11), (day -= 20));
+      //       break;
+      //     case 2:
+      //       day < 20
+      //         ? ((month = 11), (day += 11))
+      //         : ((month = 12), (day -= 19));
+      //       break;
+      //     case 3:
+      //       day < 21 ? ((month = 12), (day += 9)) : ((month = 1), (day -= 20));
+      //       break;
+      //     case 4:
+      //       day < 21 ? ((month = 1), (day += 11)) : ((month = 2), (day -= 20));
+      //       break;
+      //     case 5:
+      //     case 6:
+      //       day < 22
+      //         ? ((month -= 3), (day += 10))
+      //         : ((month -= 2), (day -= 21));
+      //       break;
+      //     case 7:
+      //     case 8:
+      //     case 9:
+      //       day < 23 ? ((month -= 3), (day += 9)) : ((month -= 2), (day -= 22));
+      //       break;
+      //     case 10:
+      //       day < 23 ? ((month = 7), (day += 8)) : ((month = 8), (day -= 22));
+      //       break;
+      //     case 11:
+      //     case 12:
+      //       day < 22 ? ((month -= 3), (day += 9)) : ((month -= 2), (day -= 21));
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
+      // if (y == 2) {
+      //   year -= month < 3 || (month == 3 && day < 20) ? 622 : 621;
+      //   switch (month) {
+      //     case 1:
+      //       day < 21
+      //         ? ((month = 10), (day += 10))
+      //         : ((month = 11), (day -= 20));
+      //       break;
+      //     case 2:
+      //       day < 20
+      //         ? ((month = 11), (day += 11))
+      //         : ((month = 12), (day -= 19));
+      //       break;
+      //     case 3:
+      //       day < 20 ? ((month = 12), (day += 10)) : ((month = 1), (day -= 19));
+      //       break;
+      //     case 4:
+      //       day < 20 ? ((month = 1), (day += 12)) : ((month = 2), (day -= 19));
+      //       break;
+      //     case 5:
+      //       day < 21 ? ((month = 2), (day += 11)) : ((month = 3), (day -= 20));
+      //       break;
+      //     case 6:
+      //       day < 21 ? ((month = 3), (day += 11)) : ((month = 4), (day -= 20));
+      //       break;
+      //     case 7:
+      //       day < 22 ? ((month = 4), (day += 10)) : ((month = 5), (day -= 21));
+      //       break;
+      //     case 8:
+      //       day < 22 ? ((month = 5), (day += 10)) : ((month = 6), (day -= 21));
+      //       break;
+      //     case 9:
+      //       day < 22 ? ((month = 6), (day += 10)) : ((month = 7), (day -= 21));
+      //       break;
+      //     case 10:
+      //       day < 22 ? ((month = 7), (day += 9)) : ((month = 8), (day -= 21));
+      //       break;
+      //     case 11:
+      //       day < 21 ? ((month = 8), (day += 10)) : ((month = 9), (day -= 20));
+      //       break;
+      //     case 12:
+      //       day < 21 ? ((month = 9), (day += 10)) : ((month = 10), (day -= 20));
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
+      // if (y == 3) {
+      //   year -= month < 3 || (month == 3 && day < 21) ? 622 : 621;
+      //   switch (month) {
+      //     case 1:
+      //       day < 20
+      //         ? ((month = 10), (day += 11))
+      //         : ((month = 11), (day -= 19));
+      //       break;
+      //     case 2:
+      //       day < 19
+      //         ? ((month = 11), (day += 12))
+      //         : ((month = 12), (day -= 18));
+      //       break;
+      //     case 3:
+      //       day < 21 ? ((month = 12), (day += 10)) : ((month = 1), (day -= 20));
+      //       break;
+      //     case 4:
+      //       day < 21 ? ((month = 1), (day += 11)) : ((month = 2), (day -= 20));
+      //       break;
+      //     case 5:
+      //     case 6:
+      //       day < 22
+      //         ? ((month -= 3), (day += 10))
+      //         : ((month -= 2), (day -= 21));
+      //       break;
+      //     case 7:
+      //     case 8:
+      //     case 9:
+      //       day < 23 ? ((month -= 3), (day += 9)) : ((month -= 2), (day -= 22));
+      //       break;
+      //     case 10:
+      //       day < 23 ? ((month = 7), (day += 8)) : ((month = 8), (day -= 22));
+      //       break;
+      //     case 11:
+      //     case 12:
+      //       day < 22 ? ((month -= 3), (day += 9)) : ((month -= 2), (day -= 21));
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
+      // document.getElementById("scu-date").innerHTML =
+      //   week[d] + " " + day + " " + months[month - 1] + " " + year;
+
+      //   const { ipcRenderer } = require("electron");
+      //   const closeApp = document.getElementById("closeApp");
+      //   closeApp.addEventListener("click", () => {
+      //     ipcRenderer.send("close-me");
+      //   });
+
+      // const minimizeApp = document.getElementById("minimizeApp");
+      // minimizeApp.addEventListener("click", () => {
+      //   ipcRenderer.send("minimize-me");
+      // });
+
+      //   function order_report_print() {
+      //     printJS({
+      //       printable: "report",
+      //       type: "html",
+      //       style: `@font-face{font-family: 'sahel';
+      //     src: url('fonts/Sahel-Bold-FD-WOL.eot');
+      //     src: url('fonts/Sahel-Bold-FD-WOL.eot?#iefix') format('embedded-opentype'),
+      //     url('fonts/Sahel-Bold-FD-WOL.ttf') format('truetype'),
+      //     url('fonts/Sahel-Bold-FD-WOL.woff') format('woff');}`,
+      //       font: "sahel",
+      //     });
+      //   }
+      //   function Sum_Of_Subsidy_Print() {
+      //     printJS({
+      //       printable: "print_order_daily",
+      //       type: "html",
+      //       style: `@font-face{font-family: 'sahel';
+      //         src: url('fonts/Sahel-Bold-FD-WOL.eot');
+      //         src: url('fonts/Sahel-Bold-FD-WOL.eot?#iefix') format('embedded-opentype'),
+      //         url('fonts/Sahel-Bold-FD-WOL.ttf') format('truetype'),
+      //         url('fonts/Sahel-Bold-FD-WOL.woff') format('woff');}`,
+      //       font: "sahel",
+      //     });
+      //   }
+      let body = document.querySelector("body");
+      body.addEventListener("keydown", (event) => {
+        if (event.keyCode == 82) {
+          window.location.reload();
+        }
+      });
+
+      function htmlEntities(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function order_done() {
+        const { ipcRenderer } = require("electron");
+        const { port1, port2 } = new MessageChannel();
+        // ipcRenderer.send("print-report");
+        let div_report2 = document.getElementById("report");
+        // console.log(d);
+
+        console.log(`div:  ${div_report2.outerHTML}`);
+        ipcRenderer.postMessage("port", { message: div_report2.outerHTML }, [
+          port1,
+        ]);
+        OrderFood();
+        // setTimeout(function () {
+        //   order_report_print();
+        // }, 3000);
+      }
+
+      body.addEventListener("keydown", (event) => {
+        if (event.keyCode == 38) {
+          Open_Report_Tab();
+        }
+      });
+
+      body.addEventListener("keydown", (event) => {
+        if (event.keyCode == 27) {
+          modal.style.display = "none";
+          window.location.reload(true);
+        }
+      });
+      // getElementsByClassName("modal-backdrop")[0].setAttribute
+
+      body.addEventListener("keydown", (event) => {
+        if (event.keyCode == 39) {
+          AddFood_Tab_Open();
+        }
+      });
+
+      function reverce_time() {
+        document.getElementById("addlist_id").innerHTML = "بستن";
+      }
+      // check device connection
+      if (navigator.onLine) {
+        console.log("im online");
+      } else {
+        console.log("im offline");
+        // jQuery(function ($) {
+        //   $(".offlineModal").addClass("active");
+        // });
+
+        document.getElementById("offlineModalText").innerHTML =
+          "اتصال اینترنت را بررسی کنید";
+
+        window.addEventListener("online", function () {
+          document.getElementById("offlineModalText").innerHTML = "متصل شد";
+
+          console.log("im online");
+        });
+        console.log("im offline");
+      }
+
+      // window.addEventListener("online", function () {
+      //   setTimeout(function () {
+      //     jQuery(function ($) {
+      //       $(".offlineModal").removeClass("active");
+      //     });
+      //   }, 2000);
+      //   console.log("im online");
+      // });
+
+      // window.addEventListener("offline", function () {
+      //   console.log("im offline");
+      //   document.getElementById("offlineModalText").innerHTML =
+      //     "اتصال اینترنت را بررسی کنید";
+      //   jQuery(function ($) {
+      //     $(".offlineModal").addClass("active");
+      //   });
+      //   window.addEventListener("online", function () {
+      //     document.getElementById("offlineModalText").innerHTML = "متصل شد";
+
+      //     console.log("im online");
+      //   });
+      // });
+
+      addEventListener("volumechange", (chap) => {
+        console.log("hello");
+      });
+
+      function online_checkout() {
+        const mellat = new MellatCheckout({
+          terminalId: "1269",
+          username: "user1269",
+          password: "49504991",
+          timeout: 10000, // Optional, number in millisecond (defaults to 10 sec)
+          apiUrl:
+            "https://banktest.ir/gateway/bpm.shaparak.ir/pgwchannel/services/pgw?wsdl", // Optional, exists (and may updated) in bank documentation (defaults to this)
+        });
+
+        // Initialize the client, this step is optional
+        // but gives you more control over your flow
+        // and speeds up the first (and just first) request.
+        mellat
+          .initialize()
+          .then(function () {
+            console.log("Mellat client ready");
+          })
+          .catch((error) => {
+            // you can retry here
+            console.log("Mellat client encountered error:", error);
+          });
+
+        let random_number = Math.floor(Math.random() * 1000);
+
+        mellat
+          .paymentRequest({
+            amount: total_free_price + total_SUBSIDY_PRICE, // Payment Amount In Rials
+            orderId: `${random_number}`, // OrderID Generated By You
+            callbackUrl: "http://36cf03b282a5.ngrok.io", // Payment Callback URL
+            payerId: "0", // Optional
+          })
+          .then(function (response) {
+            if (response.resCode === 0) {
+              console.log(
+                `https://banktest.ir/gateway/pgw.bpm.bankmellat.ir/pgwchannel/startpay.mellat?RefId=${response.refId}`
+              );
+
+              console.log(random_number);
+              // axios({
+              //         method: 'get',
+              //         url: `${rms_HostName}/AddPayment?name=ali&phone=09165956470&ResCode=${response.resCode}&student_number=9718501`,
+              //     })
+
+              // Now redirect user to following address with post param
+              // { RefId: response.refId }
+              // https://bpm.shaparak.ir/pgwchannel/startpay.mellat
+            } else {
+              console.warn("Gateway Error: ", response.resCode);
+            }
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+
+        document.getElementById("offlineModalText").innerHTML =
+          "در انتظار پرداخت اینترنتی";
+        // jQuery(function ($) {
+        //   $(".offlineModal").addClass("active");
+        //   $(".lockbody").addClass("active");
+        //   check_payment();
+        // });
+      }
+      function check_out() {
+        const mellat = new MellatCheckout({
+          terminalId: "1269",
+          username: "user1269",
+          password: "49504991",
+          timeout: 10000, // Optional, number in millisecond (defaults to 10 sec)
+          apiUrl:
+            "https://banktest.ir/gateway/bpm.shaparak.ir/pgwchannel/services/pgw?wsdl", // Optional, exists (and may updated) in bank documentation (defaults to this)
+        });
+        // Initialize the client, this step is optional
+        // but gives you more control over your flow
+        // and speeds up the first (and just first) request.
+        mellat
+          .initialize()
+          .then(function () {
+            console.log("Mellat client ready");
+          })
+          .catch((error) => {
+            // you can retry here
+            console.log("Mellat client encountered error:", error);
+          });
+        let random_number = Math.floor(Math.random() * 1000);
+        mellat
+          .paymentRequest({
+            amount: 1000, // Payment Amount In Rials
+            orderId: `${random_number}`, // OrderID Generated By You
+            callbackUrl:
+              "http://localhost:8000/api/G_-hedie83443ugfusifh7327_-%8937367w27hd3jdhhddu3468vdfsa%/AddPayment", // Payment Callback URL
+            payerId: "0", // Optional
+          })
+          .then(function (response) {
+            if (response.resCode === 0) {
+              console.log(
+                `https://banktest.ir/gateway/pgw.bpm.bankmellat.ir/pgwchannel/startpay.mellat?RefId=${response.refId}`
+              );
+              console.log(random_number);
+              // axios({
+              //         method: 'get',
+              //         url: `${rms_HostName}/AddPayment?name=ali&phone=09165956470&ResCode=${response.resCode}&student_number=9718501`,
+              //     })
+              // Now redirect user to following address with post param
+              // { RefId: response.refId }
+              // https://bpm.shaparak.ir/pgwchannel/startpay.mellat
+            } else {
+              console.warn("Gateway Error: ", response.resCode);
+            }
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+        mellat
+          .verifyPayment({
+            orderId: "269", // OrderID Used In Payment Request
+            saleOrderId: "269", // Get From Payment Callback Post Params
+            saleReferenceId: "23427", // Get From Payment Callback Post Params
+          })
+          .then(function (response) {
+            if (response.resCode === 0) {
+              console.log("پرداخت شد");
+            } else {
+              console.warn("Gateway Error: ", response.resCode);
+            }
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      }
+
+      function check_payment() {
+        let c = 0;
+        let I = setInterval(function () {
+          axios({
+            method: "get",
+            url: `${rms_HostName}/Payments`,
+          }).then(
+            // paymants => console.log(paymants.data[0].ResCode)
+            (payments) => {
+              if (payments.data.length > 0) {
+                if (payments.data[0].ResCode === 0) {
+                  // order_report_print();
+                  // checkoutsound.play();
+                  document.getElementById("offlineModalText").innerHTML =
+                    "پرداخت با موفقیت انجام شد";
+                  axios({
+                    method: "get",
+                    url: `${rms_HostName}/DeletePayments`,
+                  });
+                  setTimeout(function () {
+                    // jQuery(function ($) {
+                    //   $(".offlineModal").removeClass("active");
+                    //   $(".lockbody").removeClass("active");
+                    //   window.location.reload();
+                    // });
+                  }, 3000);
+                }
+              }
+            }
+          );
+          c++;
+          console.log(c);
+          if (c === 60) {
+            clearInterval(I);
+          }
+        }, 1000);
+      }
+
+      //     jQuery(function($) {
+      //     $(document).ready(function() {
+      // $('.mdb-select').materialSelect;
+      // });
+
+      //      });
+      // Material Select Initialization
+
+      // body.addEventListener("keydown", (event) => {
+      //   if(event.keyCode == 18){
+      //     ipcRenderer.send('print_window')
+      //   }
+      // })
+    </script>
+
+    <!-- <script src="test.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.js" integrity="sha512-Fd3EQng6gZYBGzHbKd52pV76dXZZravPY7lxfg01nPx5mdekqS8kX4o1NfTtWiHqQyKhEGaReSf4BrtfKc+D5w==" crossorigin="anonymous"></script> -->
+
+    <!-- <script src="js/persianDatepicker.js"></script> -->
+    <script>
+      // jQuery(function ($) {
+      // $(function () {
+      //usage
+      // $(".usage").persianDatepicker();
+      // //themes
+      // $("#pdpDefault").persianDatepicker({ alwaysShow: true });
+      // var p = new persianDate();
+      // $("#pdpStartDateTomarrow").persianDatepicker({
+      //   startDate: p.now().addDay(1).toString("YYYY/MM/DD"),
+      //   endDate: p.now().addDay(4).toString("YYYY/MM/DD"),
+      // });
+      // });
+      // });
+    </script>
+    <!-- <div id="app"></div>
+    <script src="./Material-UI/dist/main.js"></script> -->
+    <script>
+      function paymaent_response_notify_success() {
+        if (!window.Notification) {
+          console.log("Browser does not support notifications.");
+        } else {
+          // check if permission is already granted
+          if (Notification.permission === "granted") {
+            // show notification here
+            var notify = new Notification("حسابداری", {
+              body: "یک پرداخت اینترنتی موفقیت آمیز بود",
+              icon: "https://bit.ly/2DYqRrh",
+            });
+          } else {
+            // request permission from user
+            Notification.requestPermission()
+              .then(function (p) {
+                if (p === "granted") {
+                  // show notification here
+                  var notify = new Notification("حسابداری", {
+                    body: "یک پرداخت اینترنتی موفقیت آمیز بود",
+                    icon: "https://bit.ly/2DYqRrh",
+                  });
+                } else {
+                  console.log("User blocked notifications.");
+                }
+              })
+              .catch(function (err) {
+                console.error(err);
+              });
+          }
+        }
+      }
+      function paymaent_response_notify_failed() {
+        if (!window.Notification) {
+          console.log("Browser does not support notifications.");
+        } else {
+          // check if permission is already granted
+          if (Notification.permission === "granted") {
+            // show notification here
+            var notify = new Notification("حسابداری", {
+              body: "یک پرداخت اینترنتی ناموفق",
+              icon: "https://bit.ly/2DYqRrh",
+            });
+          } else {
+            // request permission from user
+            Notification.requestPermission()
+              .then(function (p) {
+                if (p === "granted") {
+                  // show notification here
+                  var notify = new Notification("حسابداری", {
+                    body: "یک پرداخت اینترنتی ناموفق",
+                    icon: "https://bit.ly/2DYqRrh",
+                  });
+                } else {
+                  console.log("User blocked notifications.");
+                }
+              })
+              .catch(function (err) {
+                console.error(err);
+              });
+          }
+        }
+      }
+      // get and send data from input to server (and server send it to code above (my reciver code))
+      (function () {
+        // const sendBtn = document.querySelector('#send');
+        // const messages = document.querySelector('#messages');
+        // const messageBox = document.querySelector('#messageBox');
+
+        let ws;
+
+        function init() {
+          if (ws) {
+            ws.onerror = ws.onopen = ws.onclose = null;
+            ws.close();
+          }
+          ws = new WebSocket("ws://localhost:8000");
+          // ws = new WebSocket('ws://localhost:5000')
+          ws.onopen = () => {
+            console.log("Connection opened!");
+          };
+          ws.onmessage = ({ data }) => {
+            if (data === "0") {
+              console.log("پرداخت اینترنتی موفق");
+              // M.toast({ html: " یک پرداخت اینترنتی موفق" });
+              ready.play();
+            } else {
+              console.log("پرداخت اینترنتی موفق");
+              // M.toast({ html: " یک پرداخت اینترنتی ناموفق" });
+              ready.play();
+            }
+          };
+
+          ws.onclose = function () {
+            ws = null;
+          };
+        }
+
+        init();
+      })();
+    </script>
+
+    <!-- <div class="setting">
+      <i class="fas fa-arrow-left" onclick="setting_off()"></i>
+    </div> -->
+    <div class="orderdonebtn">
+      <a
+        href="#"
+        class="button-sell"
+        style="margin-top: 20px"
+        data-toggle="modal"
+        onclick="order_done()"
+        data-target="#basicExampleModal"
+        >ثبت</a
+      >
+    </div>
+  </body>
+
+  <script>
+    // ---------Responsive-navbar-active-animation-----------
+    function test() {
+      var tabsNewAnim = $("#navbarSupportedContent");
+      var selectorNewAnim = $("#navbarSupportedContent").find("li").length;
+      var activeItemNewAnim = tabsNewAnim.find(".active");
+      var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+      var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+      var itemPosNewAnimTop = activeItemNewAnim.position();
+      var itemPosNewAnimLeft = activeItemNewAnim.position();
+      $(".hori-selector").css({
+        top: itemPosNewAnimTop.top + "px",
+        left: itemPosNewAnimLeft.left + "px",
+        height: activeWidthNewAnimHeight + "px",
+        width: activeWidthNewAnimWidth + "px",
+      });
+      $("#navbarSupportedContent").on("click", "li", function (e) {
+        $("#navbarSupportedContent ul li").removeClass("active");
+        $(this).addClass("active");
+        var activeWidthNewAnimHeight = $(this).innerHeight();
+        var activeWidthNewAnimWidth = $(this).innerWidth();
+        var itemPosNewAnimTop = $(this).position();
+        var itemPosNewAnimLeft = $(this).position();
+        $(".hori-selector").css({
+          top: itemPosNewAnimTop.top + "px",
+          left: itemPosNewAnimLeft.left + "px",
+          height: activeWidthNewAnimHeight + "px",
+          width: activeWidthNewAnimWidth + "px",
+        });
+      });
+    }
+    $(document).ready(function () {
+      setTimeout(function () {
+        test();
+      });
+    });
+    $(window).on("resize", function () {
+      setTimeout(function () {
+        test();
+      }, 500);
+    });
+    $(".navbar-toggler").click(function () {
+      setTimeout(function () {
+        test();
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+    var options = {
+      chart: {
+        type: "line",
+        height: screen.height * 0.7,
+        zoom: { enabled: false },
+      },
+      title: {
+        text: "نمودار آمار",
+        align: "center",
+        style: { fontSize: "20px", color: "#789" },
+      },
+      stroke: {
+        width: 1,
+        curve: "smooth", //(smooth , straight , stepline)
+        style: { fontSize: "20px", color: "#789" },
+      },
+      fill: {
+        opacity: 0.35,
+        type: "solid", //(solid, gradient, pattern ,image)
+      },
+      series: [
+        {
+          name: "فروش",
+          data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+          type: "area",
+          style: { fontSize: "50px", color: "#789" },
+        },
+        {
+          name: "فروش تخفیفی",
+          data: [125, 91, 70, 60, 49, 50, 35, 40, 30],
+          type: "line",
+        },
+      ],
+      xaxis: {
+        categories: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407, 1408],
+      },
+      legend: {
+        horizontalAlign: "left",
+        width: 250,
+        markers: { height: 12, width: 12 },
+        formatter: function (seriesName, opts) {
+          var optArray = opts.w.globals.series[opts.seriesIndex];
+          var optMax = Math.max.apply(null, optArray);
+          var optMin = Math.min.apply(null, optArray);
+          var optAvg = optArray.reduce((p, c) => p + c, 0) / optArray.length;
+
+          return [
+            seriesName,
+            "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ",
+            optMin.toFixed(0),
+            "&nbsp; &nbsp; &nbsp; ",
+            optMax.toFixed(0),
+            "&nbsp; &nbsp; &nbsp; ",
+            optAvg.toFixed(0),
+            "<br>",
+          ];
+        },
+      },
+      noData: {
+        text: "No Data",
+        align: "center",
+        verticalAlign: "top",
+      },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+    chart.render();
+  </script>
+  <script>
+    var wifi = require("node-wifi");
+
+    // Initialize wifi module
+    // Absolutely necessary even to set interface to null
+    wifi.init({
+      iface: null, // network interface, choose a random wifi interface if set to null
+    });
+
+    // Scan networks
+    wifi.scan((error, networks) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(networks);
+        /*
+         networks = [
+             {
+               ssid: '...',
+               bssid: '...',
+               mac: '...', // equals to bssid (for retrocompatibility)
+               channel: <number>,
+               frequency: <number>, // in MHz
+               signal_level: <number>, // in dB
+               quality: <number>, // same as signal level but in %
+               security: 'WPA WPA2' // format depending on locale for open networks in Windows
+               security_flags: '...' // encryption protocols (format currently depending of the OS)
+               mode: '...' // network mode like Infra (format currently depending of the OS)
+             },
+             ...
+         ];
+         */
+      }
+    });
+    paceOptions = {
+      ajax: true,
+      document: true,
+      eventLag: false,
+    };
+
+    Pace.on("done", () => {
+      setTimeout(function () {
+        $(".loading-wrap").addClass("loaded");
+        $(".loading-cr").addClass("loaded");
+      }, 3000);
+
+      // $("body").addClass("loaded");
+    });
+  </script>
+</html>
