@@ -8,8 +8,7 @@
 # Rest Full API (CRUD) for resturant management system chamran
 
 ## Description
-This is a Rest Api for resturant management system called (rms) for sahel resturant in university ([chamran-university](https://scu.ac.ir/))
-
+This is a Rest Api for Desktop Client app powerd by electron.Js called resturant management system (rms) for sahel resturant in university ([chamran-university](https://scu.ac.ir/))
 
 ## Technologies used
 ```
@@ -18,14 +17,6 @@ ORM: Sequelize.js
 Framework: Express.js
 push Notif: websocket (can be change to socketIO :))
 ```
-
-## Technologies to be used in the future
-```
--> RabbitMQ To queue requests
--> Redis for caching
--> passport.js for Auth
-```
-
 
 ## Installation
 
